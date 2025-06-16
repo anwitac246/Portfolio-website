@@ -1,13 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
-import Projects from "./projects";
-import Contact from "./contact";
+import ProjectsSection from "./projects";
+
 
 const GlitchText = ({ children, className = "", delay = 0 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isGlitching, setIsGlitching] = useState(false);
-  const [glitchText, setGlitchText] = useState(children);
+  const [glitchText, setGlitchText] = useState("");
   
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+  
+  // Extract text from children (fixed function placement)
+  const extractTextFromChildren = (children) => {
+    if (typeof children === 'string') return children;
+    if (typeof children === 'number') return String(children);
+    if (Array.isArray(children)) return children.map(extractTextFromChildren).join('');
+    if (typeof children === 'object' && children?.props?.children)
+      return extractTextFromChildren(children.props.children);
+    return '';
+  };
+
+  // Initialize glitchText with original text
+  useEffect(() => {
+    const originalText = extractTextFromChildren(children);
+    setGlitchText(originalText);
+  }, [children]);
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -17,16 +33,13 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
     
     return () => clearTimeout(timer);
   }, [delay]);
-  
+
   useEffect(() => {
-    if (!isGlitching) {
-      setGlitchText(children);
-      return;
-    }
-    
+    if (!isGlitching) return;
+
+    const originalText = extractTextFromChildren(children);
     let iterations = 0;
-    const originalText = children;
-    
+
     const interval = setInterval(() => {
       setGlitchText(
         originalText
@@ -39,15 +52,16 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
           })
           .join("")
       );
-      
+
       if (iterations >= originalText.length) {
         clearInterval(interval);
         setIsGlitching(false);
+        setGlitchText(originalText); // Ensure final text is correct
       }
-      
-      iterations += 1 / 4;
-    }, 40);
-    
+
+      iterations += 1 / 3; // Slightly slower reveal
+    }, 50); // Slightly slower animation
+
     return () => clearInterval(interval);
   }, [isGlitching, children]);
   
@@ -173,8 +187,7 @@ export default function About() {
   const parallaxOffset = scrollY * 0.2;
   
   return (
-    <div className="relative">
-   
+    <div className="relative" id = "about">
       <div 
         ref={aboutRef}
         className="min-h-screen relative overflow-hidden transition-all duration-500 ease-out"
@@ -207,7 +220,7 @@ export default function About() {
 
           <div className="grid md:grid-cols-2 gap-20 items-center mb-60">
             <div className="space-y-8">
-              <GlitchText 
+              <div 
                 className="block text-5xl md:text-6xl font-bold leading-tight"
                 style={{ color: '#ddd9d6' }}
                 delay={1200}
@@ -215,7 +228,7 @@ export default function About() {
                 PASSIONATE
                 <br />
                 DEVELOPER
-              </GlitchText>
+              </div>
               
               <div className="space-y-6">
                 <AnimatedText
@@ -332,28 +345,29 @@ export default function About() {
           </div>
 
           <div className="text-center mb-60">
-            <GlitchText 
-              className="block text-4xl md:text-5xl font-light leading-relaxed max-w-4xl mx-auto"
-              style={{ color: '#ddd9d6' }}
-              delay={5400}
-            >
-              "Code is poetry written in logic, 
-              <br />
-              where every line tells a story 
-              <br />
-              of possibilities."
-            </GlitchText>
+            <AnimatedText delay={5400}>
+              <div 
+                className="block text-4xl md:text-5xl font-mono leading-relaxed max-w-4xl mx-auto"
+                style={{ color: '#ddd9d6' }}
+              >
+                "Code is poetry written in logic, 
+                <br />
+                where every line tells a story 
+                <br />
+                of possibilities."
+              </div>
+            </AnimatedText>
           </div>
 
           <div className="text-center pb-40">
-            <GlitchText 
+            <div 
               className="block text-xl font-mono tracking-widest mb-16"
               style={{ color: '#c7bdb1' }}
               delay={6200}
             >
               SCROLL TO EXPLORE PROJECTS
-            </GlitchText>
-            
+            </div>
+
             <AnimatedText delay={6600} className="flex justify-center">
               <div className="animate-bounce">
                 <div 
@@ -368,8 +382,7 @@ export default function About() {
             </AnimatedText>
           </div>
         </div>
-
-  
+      
         <div className="absolute top-20 right-20 w-32 h-32 opacity-10">
           <div 
             className="w-full h-full border-2 rotate-45"
@@ -385,8 +398,8 @@ export default function About() {
         </div>
       </div>
 
-      {/* Projects Section */}
-      <Contact/>
+    
+      <ProjectsSection/>
     </div>
   );
 }

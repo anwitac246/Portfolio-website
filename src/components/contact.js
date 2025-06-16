@@ -16,15 +16,21 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
     return () => clearTimeout(timer);
   }, [delay]);
   
+  function extractTextFromChildren(children) {
+    if (typeof children === 'string') return children;
+    if (typeof children === 'number') return String(children);
+    if (Array.isArray(children)) return children.map(extractTextFromChildren).join('');
+    if (typeof children === 'object' && children?.props?.children)
+      return extractTextFromChildren(children.props.children);
+    return '';
+  }
+  
   useEffect(() => {
-    if (!isGlitching) {
-      setGlitchText(children);
-      return;
-    }
-    
+    if (!isGlitching) return;
+
+    const originalText = extractTextFromChildren(children);
     let iterations = 0;
-    const originalText = children;
-    
+
     const interval = setInterval(() => {
       setGlitchText(
         originalText
@@ -37,18 +43,18 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
           })
           .join("")
       );
-      
+
       if (iterations >= originalText.length) {
         clearInterval(interval);
         setIsGlitching(false);
       }
-      
+
       iterations += 1 / 4;
     }, 40);
-    
+
     return () => clearInterval(interval);
   }, [isGlitching, children]);
-  
+
   return (
     <span
       className={`${className} transition-all duration-1000 ${
@@ -137,7 +143,6 @@ const ContactIcon = ({ icon, label, link, delay, index }) => {
           transform: isHovered ? 'scale(1.2) rotate(10deg)' : 'scale(1) rotate(0deg)',
         }}
       >
-
         <div 
           className="absolute inset-0 rounded-full transition-all duration-500"
           style={{
@@ -166,7 +171,6 @@ const ContactIcon = ({ icon, label, link, delay, index }) => {
           {iconComponents[icon]}
         </div>
         
-
         {isHovered && (
           <div 
             className="absolute inset-0 rounded-full animate-ping"
@@ -204,6 +208,21 @@ export default function Contact() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  // Add smooth scrolling CSS
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      html {
+        scroll-behavior: smooth;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   
   const contactLinks = [
     {
@@ -235,11 +254,15 @@ export default function Contact() {
   };
   
   return (
-    <div 
+    <section 
       className="min-h-screen relative overflow-hidden"
-      style={{ backgroundColor: '#0a0908' }}
+      id="contact"
+      style={{ 
+        backgroundColor: '#0a0908',
+        scrollMarginTop: '80px' // Add offset for fixed navbar
+      }}
     >
-
+ 
       <div className="absolute inset-0">
         {Array.from({ length: 50 }, (_, i) => (
           <div
@@ -256,6 +279,7 @@ export default function Contact() {
         ))}
       </div>
 
+  
       <div 
         className="fixed w-96 h-96 rounded-full pointer-events-none z-0 transition-all duration-1000 ease-out"
         style={{
@@ -266,7 +290,7 @@ export default function Contact() {
       />
       
       <div className="relative z-10 max-w-6xl mx-auto px-8 py-20">
-
+    
         <div className="text-center mb-20">
           <GlitchText 
             className="block text-8xl md:text-9xl font-bold mb-8 tracking-wider"
@@ -280,7 +304,7 @@ export default function Contact() {
             style={{ color: '#c7bdb1' }}
             delay={700}
           >
-            LET'S BUILD SOMETHING AMAZING
+            LET&apos;S BUILD SOMETHING AMAZING
           </GlitchText>
         </div>
 
@@ -302,13 +326,13 @@ export default function Contact() {
                   <path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
               </div>
-              <GlitchText
+              <div
                 className="text-2xl md:text-3xl font-mono tracking-wider"
                 style={{ color: '#ddd9d6' }}
                 delay={1300}
               >
-                your.email@example.com
-              </GlitchText>
+                anwita.chakraborty07@gmail.com
+              </div>
             </div>
           </AnimatedText>
           
@@ -324,6 +348,7 @@ export default function Contact() {
           )}
         </div>
 
+   
         <div className="flex justify-center items-center gap-16 mb-20">
           {contactLinks.map((contact, index) => (
             <ContactIcon
@@ -337,16 +362,17 @@ export default function Contact() {
           ))}
         </div>
         
+       
         <div className="text-center mb-20">
-          <GlitchText 
+          <div 
             className="block text-4xl md:text-5xl font-light leading-relaxed max-w-4xl mx-auto mb-12"
             style={{ color: '#ddd9d6' }}
             delay={2500}
           >
             Ready to turn ideas into reality?
             <br />
-            Let's connect and create something extraordinary.
-          </GlitchText>
+            Let&apos;s connect and create something extraordinary.
+          </div>
           
           <AnimatedText delay={3000}>
             <div 
@@ -356,17 +382,18 @@ export default function Contact() {
                 backgroundColor: 'transparent'
               }}
             >
-              <GlitchText
+              <div
                 className="text-xl font-mono tracking-wider group-hover:scale-110 transition-transform duration-500"
                 style={{ color: '#5a473a' }}
                 delay={3200}
               >
                 SAY HELLO
-              </GlitchText>
+              </div>
             </div>
           </AnimatedText>
         </div>
 
+        
         <div className="text-center">
           <AnimatedText delay={3600}>
             <div 
@@ -379,6 +406,7 @@ export default function Contact() {
         </div>
       </div>
 
+     
       <div className="absolute top-20 left-20 w-40 h-40 opacity-5">
         <div 
           className="w-full h-full border-4 rounded-full animate-pulse"
@@ -393,6 +421,7 @@ export default function Contact() {
         />
       </div>
    
+     
       <style>
         {`
           ${Array.from({ length: 50 }, (_, i) => `
@@ -403,6 +432,6 @@ export default function Contact() {
           `).join('')}
         `}
       </style>
-    </div>
+    </section>
   );
 }
