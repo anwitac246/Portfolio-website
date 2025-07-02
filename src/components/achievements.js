@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ProjectsSection from './projects'; 
 import Image from 'next/image';
