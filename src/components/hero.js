@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "./navbar";
 import About from "./about";
 
@@ -9,15 +9,15 @@ const GlitchText = ({ children, className = "" }) => {
   
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
   
-  function extractTextFromChildren(children) {
+  const extractTextFromChildren = useCallback((children) => {
     if (typeof children === 'string') return children;
     if (typeof children === 'number') return String(children);
     if (Array.isArray(children)) return children.map(extractTextFromChildren).join('');
     if (typeof children === 'object' && children?.props?.children)
       return extractTextFromChildren(children.props.children);
     return '';
-  }
-  
+  }, []);
+
   useEffect(() => {
     if (!isGlitching) return;
 
@@ -46,7 +46,7 @@ const GlitchText = ({ children, className = "" }) => {
     }, 40);
 
     return () => clearInterval(interval);
-  }, [isGlitching, children]);
+  }, [extractTextFromChildren, isGlitching, children]);
 
   return (
     <span

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+'use client';
+import React, { useState, useEffect, useCallback } from "react";
 
 const GlitchText = ({ children, className = "", delay = 0 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -16,14 +17,14 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
     return () => clearTimeout(timer);
   }, [delay]);
   
-  function extractTextFromChildren(children) {
+    const extractTextFromChildren = useCallback((children) => {
     if (typeof children === 'string') return children;
     if (typeof children === 'number') return String(children);
     if (Array.isArray(children)) return children.map(extractTextFromChildren).join('');
     if (typeof children === 'object' && children?.props?.children)
       return extractTextFromChildren(children.props.children);
     return '';
-  }
+  }, []);
   
   useEffect(() => {
     if (!isGlitching) return;
@@ -50,10 +51,10 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
       }
 
       iterations += 1 / 4;
-    }, 40);
+    }, [extractTextFromChildren], 40);
 
     return () => clearInterval(interval);
-  }, [isGlitching, children]);
+  }, [extractTextFromChildren, isGlitching, children]);
 
   return (
     <span

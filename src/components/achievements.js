@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ProjectsSection from './projects'; 
+import Image from 'next/image';
 const TechIcon = ({ name, src, index }) => {
     const [isVisible, setIsVisible] = useState(false);
     const iconRef = useRef(null);
@@ -32,7 +33,7 @@ const TechIcon = ({ name, src, index }) => {
         <div className="absolute inset-0 bg-gradient-to-br from-[#5a473a] to-[#c7bdb1] opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-lg" />
         <div className="relative flex flex-col items-center gap-3">
           <div className="w-12 h-12 flex items-center justify-center">
-            <img 
+            <Image 
               src={src} 
               alt={name}
               className="w-full h-full object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import AchievementsSection from "./achievements";
 
 const GlitchText = ({ children, className = "", delay = 0 }) => {
@@ -8,19 +8,19 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
   
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
   
-  const extractTextFromChildren = (children) => {
+    const extractTextFromChildren = useCallback((children) => {
     if (typeof children === 'string') return children;
     if (typeof children === 'number') return String(children);
     if (Array.isArray(children)) return children.map(extractTextFromChildren).join('');
     if (typeof children === 'object' && children?.props?.children)
       return extractTextFromChildren(children.props.children);
     return '';
-  };
+  }, []);
 
   useEffect(() => {
     const originalText = extractTextFromChildren(children);
     setGlitchText(originalText);
-  }, [children]);
+  }, [children, extractTextFromChildren]);
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -60,7 +60,7 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
     }, 50);
 
     return () => clearInterval(interval);
-  }, [isGlitching, children]);
+  }, [extractTextFromChildren, isGlitching, children]);
   
   return (
     <span
@@ -350,11 +350,11 @@ export default function About() {
                 className="text-3xl md:text-4xl font-normal leading-relaxed max-w-4xl mx-auto italic"
                 style={{ color: '#ddd9d6' }}
               >
-                "Code is poetry written in logic, 
+                &quot;Code is poetry written in logic, 
                 <br />
                 where every line tells a story 
                 <br />
-                of possibilities."
+                of possibilities.&quot;
               </div>
             </AnimatedText>
           </div>

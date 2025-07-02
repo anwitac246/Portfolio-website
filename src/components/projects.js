@@ -59,7 +59,7 @@ const AnimatedDots = React.memo(() => {
     </div>
   );
 });
-
+AnimatedDots.displayName = "AnimatedDots";
 const AnimatedLines = React.memo(() => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -93,7 +93,7 @@ const AnimatedLines = React.memo(() => {
     </div>
   );
 });
-
+AnimatedLines.displayName = "AnimatedLines";
 const VideoModal = ({ isOpen, onClose, videoUrl, title }) => {
   const modalVideoRef = useRef(null);
 
@@ -398,7 +398,7 @@ const ProjectCard = React.memo(({ project, isLeft, index }) => {
     </>
   );
 });
-
+ProjectCard.displayName = "ProjectCard";
 const ScrollProgressBar = React.memo(({ scrollProgress }) => (
   <div className="fixed top-0 left-0 w-full h-1 bg-[#5a473a] z-50">
     <div 
@@ -407,7 +407,7 @@ const ScrollProgressBar = React.memo(({ scrollProgress }) => (
     />
   </div>
 ));
-
+ScrollProgressBar.displayName = "ScrollProgressBar";
 const ContactOverlay = React.memo(({ showContact }) => (
   <div className={`fixed inset-0 transition-all duration-1000 z-40 ${
     showContact ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -415,7 +415,7 @@ const ContactOverlay = React.memo(({ showContact }) => (
     <Contact/>
   </div>
 ));
-
+ContactOverlay.displayName = "ContactOverlay";
 const ProjectsSection = () => {
   const [showContact, setShowContact] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
