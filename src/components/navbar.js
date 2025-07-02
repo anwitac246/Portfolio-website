@@ -71,6 +71,10 @@ export default function Navbar() {
               <GlitchText className="text-white hover:text-green-400 cursor-pointer transition-colors duration-200 text-sm font-medium tracking-wider">
                 ABOUT</GlitchText>
               </Link>
+              <Link href="#achievements">
+              <GlitchText className="text-white hover:text-green-400 cursor-pointer transition-colors duration-200 text-sm font-medium tracking-wider">
+                ACHIEVEMENTS</GlitchText>
+              </Link>
               <Link href="#contact">
               <GlitchText className="text-white hover:text-green-400 cursor-pointer transition-colors duration-200 text-sm font-medium tracking-wider">
                 CONTACT
