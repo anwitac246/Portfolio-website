@@ -489,7 +489,7 @@ const ProjectsSection = () => {
   }, [updateScrollProgress]);
 
   return (
-    <>
+    <div id="projects">
       <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -546,7 +546,7 @@ const ProjectsSection = () => {
       </div>
 
       <ContactOverlay showContact={showContact} />
-    </>
+    </div>
   );
 };
 
