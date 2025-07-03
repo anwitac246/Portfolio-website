@@ -197,7 +197,7 @@ const ContactIcon = ({ icon, label, link, delay, index }) => {
   );
 };
 
-export default function Contact() {
+const Contact = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isEmailCopied, setIsEmailCopied] = useState(false);
   
@@ -216,11 +216,19 @@ export default function Contact() {
       html {
         scroll-behavior: smooth;
       }
+      ${Array.from({ length: 50 }, (_, i) => `
+        @keyframes twinkle-${i} {
+          0%, 100% { opacity: 0.2; transform: scale(1); }
+          50% { opacity: 0.8; transform: scale(1.5); }
+        }
+      `).join('')}
     `;
     document.head.appendChild(style);
 
     return () => {
-      document.head.removeChild(style);
+      if (document.head.contains(style)) {
+        document.head.removeChild(style);
+      }
     };
   }, []);
   
@@ -262,7 +270,7 @@ export default function Contact() {
         scrollMarginTop: '80px'
       }}
     >
-      
+    
       <div className="absolute inset-0">
         {Array.from({ length: 50 }, (_, i) => (
           <div
@@ -279,7 +287,7 @@ export default function Contact() {
         ))}
       </div>
 
-      
+    
       <div 
         className="fixed w-96 h-96 rounded-full pointer-events-none z-0 transition-all duration-1000 ease-out hidden md:block"
         style={{
@@ -304,11 +312,11 @@ export default function Contact() {
             style={{ color: '#c7bdb1' }}
             delay={700}
           >
-            LET&apos;S BUILD SOMETHING AMAZING
+            LET'S BUILD SOMETHING AMAZING
           </GlitchText>
         </div>
 
- 
+      
         <div className="text-center mb-12 sm:mb-16 lg:mb-20">
           <AnimatedText delay={1100} className="mb-6 sm:mb-8">
             <div 
@@ -348,7 +356,7 @@ export default function Contact() {
           )}
         </div>
 
-        {/* Social icons */}
+       
         <div className="flex justify-center items-center gap-8 sm:gap-12 lg:gap-16 mb-12 sm:mb-16 lg:mb-20 flex-wrap">
           {contactLinks.map((contact, index) => (
             <ContactIcon
@@ -362,7 +370,7 @@ export default function Contact() {
           ))}
         </div>
         
-        {/* Call to action */}
+      
         <div className="text-center mb-12 sm:mb-16 lg:mb-20">
           <AnimatedText delay={2500}>
             <div 
@@ -371,15 +379,10 @@ export default function Contact() {
             >
               Ready to turn ideas into reality?
               <br />
-              Let&apos;s connect and create something extraordinary.
+              Let's connect and create something extraordinary.
             </div>
           </AnimatedText>
-          
-          
         </div>
-
-
-        
       </div>
 
       
@@ -396,18 +399,8 @@ export default function Contact() {
           style={{ borderColor: '#c7bdb1' }}
         />
       </div>
-   
-      {/* Animations */}
-      <style>
-        {`
-          ${Array.from({ length: 50 }, (_, i) => `
-            @keyframes twinkle-${i} {
-              0%, 100% { opacity: 0.2; transform: scale(1); }
-              50% { opacity: 0.8; transform: scale(1.5); }
-            }
-          `).join('')}
-        `}
-      </style>
     </section>
   );
-}
+};
+
+export default Contact;

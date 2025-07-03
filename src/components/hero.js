@@ -133,7 +133,7 @@ export default function Hero() {
 
       <div 
         className="relative flex h-screen w-full items-center justify-center overflow-hidden"
-        style={{ backgroundColor: '#161412' }}
+        style={{ backgroundColor: '#161412' , position: 'relative', zIndex: 10 }}
       >
      
         <div 
