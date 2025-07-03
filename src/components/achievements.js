@@ -37,6 +37,8 @@ const TechIcon = ({ name, src, index }) => {
             <Image 
               src={src} 
               alt={name}
+              width={48}
+              height={48}
               className="w-full h-full object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300"
             />
           </div>

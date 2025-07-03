@@ -281,7 +281,7 @@ export default function Hero() {
           </div>
 
           <h1 
-            className={`text-6xl md:text-8xl font-bold transition-all duration-2000 ease-out ${
+            className={`text-4xl md:text-8xl font-bold transition-all duration-2000 ease-out ${
               nameVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
             style={{

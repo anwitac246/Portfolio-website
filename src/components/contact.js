@@ -17,7 +17,7 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
     return () => clearTimeout(timer);
   }, [delay]);
   
-    const extractTextFromChildren = useCallback((children) => {
+  const extractTextFromChildren = useCallback((children) => {
     if (typeof children === 'string') return children;
     if (typeof children === 'number') return String(children);
     if (Array.isArray(children)) return children.map(extractTextFromChildren).join('');
@@ -51,7 +51,7 @@ const GlitchText = ({ children, className = "", delay = 0 }) => {
       }
 
       iterations += 1 / 4;
-    }, [extractTextFromChildren], 40);
+    }, 40);
 
     return () => clearInterval(interval);
   }, [extractTextFromChildren, isGlitching, children]);
@@ -134,7 +134,7 @@ const ContactIcon = ({ icon, label, link, delay, index }) => {
   return (
     <AnimatedText delay={delay} className="flex flex-col items-center group">
       <div 
-        className={`relative w-20 h-20 mb-4 cursor-pointer transition-all duration-500 ${
+        className={`relative w-16 h-16 sm:w-20 sm:h-20 mb-3 sm:mb-4 cursor-pointer transition-all duration-500 ${
           isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
         }`}
         onMouseEnter={() => setIsHovered(true)}
@@ -164,7 +164,7 @@ const ContactIcon = ({ icon, label, link, delay, index }) => {
         />
     
         <div 
-          className="absolute inset-0 flex items-center justify-center p-4 transition-all duration-500"
+          className="absolute inset-0 flex items-center justify-center p-3 sm:p-4 transition-all duration-500"
           style={{
             color: isHovered ? '#ffffff' : '#c7bdb1',
           }}
@@ -183,7 +183,7 @@ const ContactIcon = ({ icon, label, link, delay, index }) => {
       </div>
       
       <GlitchText
-        className={`text-sm font-mono tracking-wider transition-all duration-500 ${
+        className={`text-xs sm:text-sm font-mono tracking-wider transition-all duration-500 ${
           isHovered ? 'scale-110' : 'scale-100'
         }`}
         style={{ 
@@ -210,7 +210,6 @@ export default function Contact() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Add smooth scrolling CSS
   useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
@@ -260,10 +259,10 @@ export default function Contact() {
       id="contact"
       style={{ 
         backgroundColor: '#0a0908',
-        scrollMarginTop: '80px' // Add offset for fixed navbar
+        scrollMarginTop: '80px'
       }}
     >
- 
+      
       <div className="absolute inset-0">
         {Array.from({ length: 50 }, (_, i) => (
           <div
@@ -280,9 +279,9 @@ export default function Contact() {
         ))}
       </div>
 
-  
+      
       <div 
-        className="fixed w-96 h-96 rounded-full pointer-events-none z-0 transition-all duration-1000 ease-out"
+        className="fixed w-96 h-96 rounded-full pointer-events-none z-0 transition-all duration-1000 ease-out hidden md:block"
         style={{
           background: 'radial-gradient(circle, rgba(90, 71, 58, 0.1) 0%, transparent 70%)',
           left: mousePosition.x - 192,
@@ -290,18 +289,18 @@ export default function Contact() {
         }}
       />
       
-      <div className="relative z-10 max-w-6xl mx-auto px-8 py-20">
-    
-        <div className="text-center mb-20">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+       
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
           <GlitchText 
-            className="block text-8xl md:text-9xl font-bold mb-8 tracking-wider"
+            className="block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-4 sm:mb-6 lg:mb-8 tracking-wider"
             style={{ color: '#ffffff' }}
             delay={300}
           >
             CONTACT
           </GlitchText>
           <GlitchText 
-            className="block text-2xl md:text-3xl font-light tracking-[0.3em]"
+            className="block text-lg sm:text-xl md:text-2xl lg:text-3xl font-light tracking-[0.2em] sm:tracking-[0.3em] px-4"
             style={{ color: '#c7bdb1' }}
             delay={700}
           >
@@ -309,10 +308,11 @@ export default function Contact() {
           </GlitchText>
         </div>
 
-        <div className="text-center mb-20">
-          <AnimatedText delay={1100} className="mb-8">
+ 
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+          <AnimatedText delay={1100} className="mb-6 sm:mb-8">
             <div 
-              className="inline-flex items-center gap-4 px-8 py-6 border-2 cursor-pointer group transition-all duration-500 hover:scale-105"
+              className="inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-4 px-4 sm:px-6 lg:px-8 py-4 sm:py-5 lg:py-6 border-2 cursor-pointer group transition-all duration-500 hover:scale-105 mx-4"
               style={{ 
                 borderColor: '#5a473a',
                 backgroundColor: isEmailCopied ? 'rgba(90, 71, 58, 0.2)' : 'transparent'
@@ -320,7 +320,7 @@ export default function Contact() {
               onClick={handleEmailClick}
             >
               <div 
-                className="w-8 h-8 transition-all duration-500 group-hover:scale-110"
+                className="w-6 h-6 sm:w-8 sm:h-8 transition-all duration-500 group-hover:scale-110"
                 style={{ color: '#c7bdb1' }}
               >
                 <svg viewBox="0 0 24 24" className="w-full h-full">
@@ -328,9 +328,8 @@ export default function Contact() {
                 </svg>
               </div>
               <div
-                className="text-2xl md:text-3xl font-mono tracking-wider"
+                className="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-mono tracking-wider text-center break-all sm:break-normal"
                 style={{ color: '#ddd9d6' }}
-                delay={1300}
               >
                 anwita.chakraborty07@gmail.com
               </div>
@@ -340,7 +339,7 @@ export default function Contact() {
           {isEmailCopied && (
             <AnimatedText delay={0} className="text-center">
               <div 
-                className="text-sm font-mono tracking-wider animate-pulse"
+                className="text-xs sm:text-sm font-mono tracking-wider animate-pulse"
                 style={{ color: '#5a473a' }}
               >
                 EMAIL COPIED TO CLIPBOARD
@@ -349,8 +348,8 @@ export default function Contact() {
           )}
         </div>
 
-   
-        <div className="flex justify-center items-center gap-16 mb-20">
+        {/* Social icons */}
+        <div className="flex justify-center items-center gap-8 sm:gap-12 lg:gap-16 mb-12 sm:mb-16 lg:mb-20 flex-wrap">
           {contactLinks.map((contact, index) => (
             <ContactIcon
               key={contact.icon}
@@ -363,66 +362,42 @@ export default function Contact() {
           ))}
         </div>
         
-       
-        <div className="text-center mb-20">
-          <div 
-            className="block text-4xl md:text-5xl font-light leading-relaxed max-w-4xl mx-auto mb-12"
-            style={{ color: '#ddd9d6' }}
-            delay={2500}
-          >
-            Ready to turn ideas into reality?
-            <br />
-            Let&apos;s connect and create something extraordinary.
-          </div>
-          
-          <AnimatedText delay={3000}>
+        {/* Call to action */}
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+          <AnimatedText delay={2500}>
             <div 
-              className="inline-block px-12 py-6 border-2 transition-all duration-500 hover:scale-110 hover:rotate-2 cursor-pointer group"
-              style={{ 
-                borderColor: '#5a473a',
-                backgroundColor: 'transparent'
-              }}
+              className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed max-w-4xl mx-auto mb-8 sm:mb-10 lg:mb-12 px-4"
+              style={{ color: '#ddd9d6' }}
             >
-              <div
-                className="text-xl font-mono tracking-wider group-hover:scale-110 transition-transform duration-500"
-                style={{ color: '#5a473a' }}
-                delay={3200}
-              >
-                SAY HELLO
-              </div>
+              Ready to turn ideas into reality?
+              <br />
+              Let&apos;s connect and create something extraordinary.
             </div>
           </AnimatedText>
+          
+          
         </div>
+
 
         
-        <div className="text-center">
-          <AnimatedText delay={3600}>
-            <div 
-              className="text-sm font-mono tracking-widest opacity-60"
-              style={{ color: '#c7bdb1' }}
-            >
-              © 2024 • CRAFTED WITH PASSION • BUILT FOR THE FUTURE
-            </div>
-          </AnimatedText>
-        </div>
       </div>
 
-     
-      <div className="absolute top-20 left-20 w-40 h-40 opacity-5">
+      
+      <div className="absolute top-10 sm:top-20 left-10 sm:left-20 w-20 h-20 sm:w-40 sm:h-40 opacity-5 hidden sm:block">
         <div 
           className="w-full h-full border-4 rounded-full animate-pulse"
           style={{ borderColor: '#5a473a' }}
         />
       </div>
       
-      <div className="absolute bottom-20 right-20 w-32 h-32 opacity-5">
+      <div className="absolute bottom-10 sm:bottom-20 right-10 sm:right-20 w-16 h-16 sm:w-32 sm:h-32 opacity-5 hidden sm:block">
         <div 
           className="w-full h-full border-4 rotate-45 animate-bounce"
           style={{ borderColor: '#c7bdb1' }}
         />
       </div>
    
-     
+      {/* Animations */}
       <style>
         {`
           ${Array.from({ length: 50 }, (_, i) => `
